@@ -2,7 +2,7 @@ package main
 
 import "fmt"
 
-func callbackHelp() error {
+func callbackHelp(cfg *config) error {
 	fmt.Println("++++++++++++++++++ Welcome to PokDex ++++++++++++++++++")
 	fmt.Println("++++++++++++++++++ Avaliable Commands ++++++++++++++++++")
 	fmt.Println("----------------------------------------------------------")

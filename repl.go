@@ -7,7 +7,7 @@ import (
 	"strings"
 )
 
-func startREPL() {
+func startREPL(cfg *config) {
 	scanner := bufio.NewScanner(os.Stdin)
 	for {
 		fmt.Print("> ")
@@ -24,7 +24,9 @@ func startREPL() {
 			fmt.Println("invalid command")
 			continue
 		}
-		command.callback()
+		if err := command.callback(cfg); err != nil {
+			fmt.Println(err)
+		}
 	}
 }
 
@@ -37,7 +39,7 @@ func cleanInput(str string) []string {
 type cliCommands struct {
 	name        string
 	description string
-	callback    func() error
+	callback    func(*config) error
 }
 
 func getCommands() map[string]cliCommands {
@@ -51,6 +53,16 @@ func getCommands() map[string]cliCommands {
 			name:        "exit",
 			description: "Exit the Pokdex cli",
 			callback:    callbackExit,
+		},
+		"map": {
+			name:        "map",
+			description: "Get the locations of the pokemons of next page",
+			callback:    callbackMap,
+		},
+		"mapb": {
+			name:        "mapb",
+			description: "Get the location of the previous page",
+			callback:    callbackMapb,
 		},
 	}
 }
